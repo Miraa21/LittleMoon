@@ -32,7 +32,7 @@ function OrderScreen({ match }) {
         (acc, item) => acc + item.price * item.qty,
         0
       );
-      setItemsPrice(calculatedItemsPrice.toFixed(2));
+      setItemsPrice(Number(calculatedItemsPrice.toFixed(2)));
     }
   }, [order, loading, error]);
   useEffect(() => {
@@ -131,8 +131,8 @@ function OrderScreen({ match }) {
                           </Link>
                         </Col>
                         <Col md={4}>
-                          {item.qty} X EGP{item.price}= EGP{" "}
-                          {(item.qty * item.price).toFixed(2)}
+                          {item.qty} X EGP{item.price} = EGP {" "}
+                          {Number((item.qty * item.price).toFixed(2))}
                         </Col>
                       </Row>
                     </ListGroup.Item>
@@ -152,25 +152,25 @@ function OrderScreen({ match }) {
               <ListGroup.Item>
                 <Row>
                   <Col>Items:</Col>
-                  <Col>EGP {itemsPrice}</Col>
+                  <Col>EGP {Number(itemsPrice)}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
                   <Col>Shipping:</Col>
-                  <Col>EGP {order.shippingPrice}</Col>
+                  <Col>EGP {Number(order.shippingPrice)}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
                   <Col>Tax:</Col>
-                  <Col>EGP {order.taxPrice}</Col>
+                  <Col>EGP {Number(order.taxPrice)}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
                   <Col>Total:</Col>
-                  <Col>EGP {order.totalPrice}</Col>
+                  <Col>EGP {Number(order.totalPrice)}</Col>
                 </Row>
               </ListGroup.Item>
             </ListGroup>

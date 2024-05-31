@@ -21,7 +21,7 @@ function ProductCarousel() {
     <Message variant="danger">{error}</Message>
   ) : (
     <Carousel pause="hover" className="bg-dark">
-      {/* {console.log(products, 'Hello')}
+     
       {products.length > 0 && products.map((product) => (
         <Carousel.Item key={product._id}>
           <Link to={`/product/${product._id}`}>
@@ -33,7 +33,7 @@ function ProductCarousel() {
             </Carousel.Caption>
           </Link>
         </Carousel.Item>
-      ))} */}
+      ))}
     </Carousel>
   );
 }

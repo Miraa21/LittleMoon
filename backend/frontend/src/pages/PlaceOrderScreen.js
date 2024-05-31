@@ -27,12 +27,19 @@ function PlaceOrderScreen() {
       const calculatedTaxPrice = 0.042 * calculatedItemsPrice;
       const calculatedTotalPrice =
         calculatedItemsPrice + calculatedShippingPrice + calculatedTaxPrice;
-
-      setItemsPrice(calculatedItemsPrice.toFixed(2));
-      setShippingPrice(calculatedShippingPrice.toFixed(2));
-      setTaxPrice(calculatedTaxPrice.toFixed(2));
-      setTotalPrice(calculatedTotalPrice.toFixed(2));
+  
+      // Round the calculated prices to 2 decimal places
+      const roundedItemsPrice = Number(calculatedItemsPrice.toFixed(2));
+      const roundedShippingPrice = Number(calculatedShippingPrice.toFixed(2));
+      const roundedTaxPrice = Number(calculatedTaxPrice.toFixed(2));
+      const roundedTotalPrice = Number(calculatedTotalPrice.toFixed(2));
+  
+      setItemsPrice(roundedItemsPrice);
+      setShippingPrice(roundedShippingPrice);
+      setTaxPrice(roundedTaxPrice);
+      setTotalPrice(roundedTotalPrice);
     };
+  
     calculatePrices();
   }, [cart]);
   useEffect(() => {
@@ -133,25 +140,25 @@ if(success){
               <ListGroup.Item>
                 <Row>
                   <Col>Items:</Col>
-                  <Col>EGP {itemsPrice}</Col>
+                  <Col>EGP {Number(itemsPrice)}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
                   <Col>Shipping:</Col>
-                  <Col>EGP {shippingPrice}</Col>
+                  <Col>EGP {Number(shippingPrice)}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
                   <Col>Tax:</Col>
-                  <Col>EGP {taxPrice}</Col>
+                  <Col>EGP {Number(taxPrice)}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
                   <Col>Total:</Col>
-                  <Col>EGP {totalPrice}</Col>
+                  <Col>EGP {Number(totalPrice)}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>

@@ -1,6 +1,6 @@
 import "./bootstrap.min.css";
 import { Container } from "react-bootstrap";
-import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
+import { Routes, Route, HashRouter as Router } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import HomeScreen from "./pages/HomeScreen";
@@ -25,7 +25,6 @@ function App() {
       <Header />
       <main className="py-3">
         <Container>
-          
             <Routes>
               <Route path="/" Component={HomeScreen} exact />
               <Route path="/login" Component={LoginScreen} />

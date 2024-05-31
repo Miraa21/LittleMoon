@@ -9,6 +9,10 @@ from rest_framework import status
 from django.db.models import Sum
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 from django.views.generic import ListView
+import boto3
+from botocore.exceptions import NoCredentialsError, PartialCredentialsError
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
 
 
 @api_view(['GET'])
@@ -83,12 +87,18 @@ def deleteProduct(request,pk):
 
 @api_view(['POST'])
 def uploadImage(request):
-    data=request.data
-    product_id=data['product_id']
-    product=Product.objects.get(_id=product_id)
-    product.image=request.FILES.get('image')
+    data = request.data
+    product_id = data.get('product_id')
+
+    try:
+        product = Product.objects.get(_id=product_id)
+    except Product.DoesNotExist:
+        return Response("Product not found", status=status.HTTP_404_NOT_FOUND)
+
+    product.image = request.FILES.get('image')
     product.save()
-    return Response({'imagePath': product.image.url}, status=201)
+
+    return Response('Image was uploaded successfully')
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -128,12 +138,3 @@ def createProductReview(request, pk):
     product.save()
 
     return Response('Review added!')
-@api_view(['GET'])
-class AdminProductListView(ListView):
-    model = Product
-    template_name = 'admin/product_list.html'
-    paginate_by = 8
-
-    def get_queryset(self):
-        query = self.request.GET.get('keyword', '')
-        return Product.objects.filter(name__icontains=query)

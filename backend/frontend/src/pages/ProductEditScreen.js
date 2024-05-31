@@ -39,13 +39,13 @@ const ProductEditScreen = () => {
       if (!product.name || product._id !== Number(id)) {
         dispatch(listProductDetails(id));
       } else {
-        setName(product.name || '');
+        setName(product.name || "");
         setPrice(product.price || 0);
-        setImage(product.Image || '');
-        setDescription(product.description || '');
-        setCategory(product.category || '');
+        setImage(product.image || "");
+        setDescription(product.description || "");
+        setCategory(product.category || "");
         setStock(product.stock || 0);
-        setSize(product.size || '')
+        setSize(product.size || "");
       }
     }
   }, [dispatch, id, product, navigate, successUpdate]);
@@ -61,29 +61,31 @@ const ProductEditScreen = () => {
         category,
         stock,
         description,
-        size
+        size,
       })
     );
   };
   const uploadFileHandler = async (e) => {
-    const file=e.target.files[0]
-    const formData=new FormData()
-    formData.append('image',file)
-    formData.append('product_id',id)
-    setUpload(true)
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append("image", file);
+    formData.append("product_id", id);
+    setUpload(true);
     try {
-        const config={
-            headers:{'Content-Type':'multipart/form-data'}
-        }
-        const {data}=await axios.post('/api/products/upload/',formData,config)
-        setImage(data.imagePath);
-        setUpload(false)
-        
+      const config = {
+        headers: { "Content-Type": "multipart/form-data" },
+      };
+      const { data } = await axios.post(
+        "/api/products/upload/",
+        formData,
+        config
+      );
+      setImage(data.imagePath);
+      setUpload(false);
     } catch (error) {
-        console.log(error)
-        setUpload(false)
+      console.log(error);
+      setUpload(false);
     }
-
   };
 
   return (
@@ -92,7 +94,7 @@ const ProductEditScreen = () => {
         Go Back
       </Link>
       <FormContainer>
-        <h1>New Product</h1>
+        <h1>Edit Product</h1>
         {loadingUpdate && <Loader />}
         {errorUpdate && <Message variant="danger">{errorUpdate}</Message>}
         {loading ? (
@@ -100,79 +102,76 @@ const ProductEditScreen = () => {
         ) : error ? (
           <Message variant="danger">{error}</Message>
         ) : (
-          <Form onSubmit={submitHandler}>
-            <Form.Group controlId="name">
-              <Form.Label>Name</Form.Label>
-              <Form.Control
-                type="name"
-                placeholder="Enter Product Name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-            </Form.Group>
-            <Form.Group controlId="price">
-              <Form.Label>Price</Form.Label>
-              <Form.Control
-                type="number"
-                placeholder="Enter Price"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-              />
-            </Form.Group>
-            <Form.Group controlId="image">
-              <Form.Label>Image</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter Image URL"
-                value={image}
-                onChange={(e) => setImage(e.target.value)}
-              />
-            </Form.Group>
-            <Form.Group controlId="image-file">
-              <Form.Label>Upload Image</Form.Label>
-              <Form.Control
-                type="file"
-                onChange={uploadFileHandler}
-              />
-              {upload && <Loader />}
-            </Form.Group>
-            <Form.Group controlId="category">
-              <Form.Label>Category</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter Category"
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-              />
-            </Form.Group>
-            <Form.Group controlId="stock">
-              <Form.Label>Stock</Form.Label>
-              <Form.Control
-                type="number"
-                placeholder="Enter Stock"
-                value={stock}
-                onChange={(e) => setStock(e.target.value)}
-              />
-            </Form.Group>
-            <Form.Group controlId="description">
-              <Form.Label>Description</Form.Label>
-              <Form.Control
-                as="textarea"
-                rows={4}
-                placeholder="Enter Description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              />
-            </Form.Group>
-
-            <Button type="submit" variant="primary" className="mt-3">
-              Update
-            </Button>
-          </Form>
+          product && (
+            <Form onSubmit={submitHandler}>
+              <Form.Group controlId="name">
+                <Form.Label>Name</Form.Label>
+                <Form.Control
+                  type="name"
+                  placeholder="Enter Product Name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </Form.Group>
+              <Form.Group controlId="price">
+                <Form.Label>Price</Form.Label>
+                <Form.Control
+                  type="number"
+                  placeholder="Enter Price"
+                  value={price}
+                  onChange={(e) => setPrice(e.target.value)}
+                />
+              </Form.Group>
+              <Form.Group controlId="image">
+                <Form.Label>Image</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter Image URL"
+                  value={image}
+                  onChange={(e) => setImage(e.target.value)}
+                />
+              </Form.Group>
+              <Form.Group controlId="formFile">
+                <Form.Label>Image</Form.Label>
+                <Form.Control type="file" onChange={uploadFileHandler} />
+                {upload && <Loader />}
+              </Form.Group>
+              <Form.Group controlId="category">
+                <Form.Label>Category</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter Category"
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                />
+              </Form.Group>
+              <Form.Group controlId="stock">
+                <Form.Label>Stock</Form.Label>
+                <Form.Control
+                  type="number"
+                  placeholder="Enter Stock"
+                  value={stock}
+                  onChange={(e) => setStock(e.target.value)}
+                />
+              </Form.Group>
+              <Form.Group controlId="description">
+                <Form.Label>Description</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={4}
+                  placeholder="Enter Description"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+              </Form.Group>
+              <Button type="submit" variant="primary" className="mt-3">
+                Update
+              </Button>
+            </Form>
+          )
         )}
       </FormContainer>
     </div>
   );
-};
-
+}  
 export default ProductEditScreen;
