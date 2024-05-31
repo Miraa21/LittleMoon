@@ -15,7 +15,7 @@ SECRET_KEY = 'django-insecure-*%0+uqi=*gp+#lfm%5##m2hvy=_iyn7@5f&bkl%1&&7boqfj4z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1','localhost','https://littlemoonshop-4685dc1a895f.herokuapp.com']
 
 # Application definition
 
@@ -83,6 +83,7 @@ MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     'django.middleware.security.SecurityMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -176,8 +177,8 @@ CORS_ALLOW_ALL_ORIGINS = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-AWS_ACCESS_KEY_ID = 'AKIAVRUVRA72IQNYG375'
-AWS_SECRET_ACCESS_KEY = '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'
+AWS_ACCESS_KEY_ID =  'AKIAVRUVRA72IQNYG375'
+AWS_SECRET_ACCESS_KEY =  '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'
 AWS_STORAGE_BUCKET_NAME = 'littlemoon-bucket'
 AWS_S3_SIGNATURE_NAME = 's3v4'
 AWS_S3_REGION_NAME='eu-north-1'
@@ -185,3 +186,9 @@ AWS_S3_FILE_OVERWRITE= False
 AWS_DEFAULT_ACL=None
 AWS_S3_VERITY=True
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+if os.getcwd()=='/app':
+    DEBUG=False
+    
+print("AWS Access Key ID:", AWS_ACCESS_KEY_ID)
+print("AWS Secret Access Key:", AWS_SECRET_ACCESS_KEY)
