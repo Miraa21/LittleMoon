@@ -114,8 +114,8 @@ def createProductReview(request, pk):
         return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
     # No rating or 0 rating
-    if 'rating' not in data or data['rating'] == '':
-        content = {'detail': 'Please select a rating'}
+    if 'rating' not in data or data['rating'] == '' or 'comment' not in data or data['comment'].strip() == '':
+        content = {'detail': 'Please provide both rating and comment'}
         return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
     # Highlighted: Ensure rating is converted to the appropriate type
@@ -127,7 +127,7 @@ def createProductReview(request, pk):
         product=product,
         name=user.first_name,
         rating=rating,
-        comment=data['comment']
+        comment=data['comment'].strip()
     )
 
     # Calculate total rating and update product numReviews and rating
@@ -137,4 +137,4 @@ def createProductReview(request, pk):
     product.rating = total_rating / len(reviews)
     product.save()
 
-    return Response('Review added!')
+    return Response({'detail': 'Review added'})

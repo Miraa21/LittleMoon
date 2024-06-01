@@ -24,6 +24,7 @@ function ProductScreen() {
   const [qty, setQty] = useState(1);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
+  const [validationError, setValidationError] = useState("");
 
   const { id } = useParams();
   const navigate = useNavigate();
@@ -47,21 +48,26 @@ function ProductScreen() {
       setRating(0);
       setComment("");
       dispatch({ type: PRODUCT_CREATE_REVIEW_RESET });
-      
     }
     dispatch(listProductDetails(id)); // Fetch updated product details
   }, [dispatch, successProductReview, id]);
+
   const addToCart = () => {
     navigate(`/cart/${id}?qty=${qty}`);
   };
 
   const submitHandler = (e) => {
     e.preventDefault();
-    const review = {
-      rating,
-      comment,
-    };
-    dispatch(createProductReview(id, review));
+    if (rating === 0 || comment.trim() === "") {
+      setValidationError("Please provide both rating and comment.");
+    } else {
+      const review = {
+        rating,
+        comment,
+      };
+      dispatch(createProductReview(id, review));
+      setValidationError("");
+    }
   };
 
   return (
@@ -178,6 +184,9 @@ function ProductScreen() {
                   )}
                   {errorProductReview && (
                     <Message variant="danger">{errorProductReview}</Message>
+                  )}
+                  {validationError && (
+                    <Message variant="danger">{validationError}</Message>
                   )}
                   {userInfo ? (
                     <Form onSubmit={submitHandler}>
