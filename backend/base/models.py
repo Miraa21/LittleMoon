@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models import Sum
 # Create your models here.
 class Product(models.Model):
     user = models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
@@ -17,9 +18,16 @@ class Product(models.Model):
     
     def __str__(self):
         return self.name
+    def getRating(self):
+        reviews = self.review_set.all()
+        self.numReviews = len(reviews)
+        total_rating = reviews.aggregate(Sum('rating'))['rating__sum']
+        self.rating = total_rating / len(reviews)
+        self.save()
+
     
 class Review(models.Model):
-    product= models.ForeignKey(Product,on_delete=models.SET_NULL,null=True)
+    product= models.ForeignKey(Product,on_delete=models.SET_NULL,null=True,related_name="reviews")
     user= models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
     name=models.CharField(max_length=300,null=True,blank=True)
     rating= models.IntegerField(null=True,blank=True,default=0)
